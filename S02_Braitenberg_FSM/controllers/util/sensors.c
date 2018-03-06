@@ -45,7 +45,7 @@ void sensors_init()
     sensors_compute_corrections();
 }
 
-double sensors_get_distance(size_t index, bool correct)
+double sensors_get_value(size_t index, bool correct)
 {
     double sensor_value = wb_distance_sensor_get_value(sensors[index]);
     return correct ? sensor_value - corrections[index] : sensor_value;

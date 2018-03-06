@@ -7,6 +7,6 @@
 void sensors_init();
 
 // returns the current distance of a proximity sensor
-double sensors_get_distance(size_t index, bool correct);
+double sensors_get_value(size_t index, bool correct);
 
 #endif //S02_BRAITENBERG_FSM_SENSOR_H

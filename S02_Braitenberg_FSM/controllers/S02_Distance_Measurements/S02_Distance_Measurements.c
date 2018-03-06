@@ -47,7 +47,7 @@ void csv_add_row(FILE * file, double time, bool correct)
     
     for(size_t i = 0; i < USED_SENSORS_COUNT; ++i)
     {
-        double sensor_value = sensors_get_distance(USED_SENSORS[i], correct);
+        double sensor_value = sensors_get_value(USED_SENSORS[i], correct);
         fprintf(file, "%f,", sensor_value);
     }
     
@@ -67,7 +67,7 @@ void wait_for_wall()
     while(wb_robot_step(TIME_STEP) != -1)
     {
         for(size_t i = 0; i < USED_SENSORS_COUNT; ++i)
-            if(sensors_get_distance(USED_SENSORS[i], true) < WAIT_FOR_DISTANCE)
+            if(sensors_get_value(USED_SENSORS[i], true) < WAIT_FOR_DISTANCE)
                 countdown = init_countdown;
         
         if(--countdown == 0)
