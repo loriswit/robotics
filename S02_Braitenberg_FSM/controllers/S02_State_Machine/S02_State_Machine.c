@@ -41,7 +41,7 @@ int main()
         
     enum {LOVER, EXPLORER} state = LOVER;
     const double time_factor = wb_robot_get_mode() == 0 ? 1 : 0.4;
-    printf("time factor = %f", time_factor);
+    printf("time factor = %f\n", time_factor);
     const unsigned max_counter = MIN_STATE_DURATION * 1000 / TIME_STEP * time_factor;
     unsigned counter = max_counter;
     
