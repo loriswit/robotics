@@ -37,8 +37,10 @@ int main()
     {
         double prox[2] = {0, 0};
         for(size_t i = 0; i < SENSORS_COUNT; ++i)
-            prox[i * 2 / SENSORS_COUNT] +=
-                    weights[i] * sensors_get_value(i, true) / total_weight;
+        {
+            size_t index = i * 2 / SENSORS_COUNT;
+            prox[index] += weights[i] * sensors_get_value(i, true) / total_weight;
+        }
         
         double speed_right = SPEED - prox[0] / THRESHOLD * SPEED;
         double speed_left = SPEED - prox[1] / THRESHOLD * SPEED;

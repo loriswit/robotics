@@ -15,6 +15,8 @@
 
 #define WAIT_FOR_DISTANCE 2000
 
+#define SPEED -2
+
 // only use proximity sensor 0 and 7
 #define USED_SENSORS_COUNT 2
 const size_t USED_SENSORS[USED_SENSORS_COUNT] = {0, 7};
@@ -92,12 +94,11 @@ int main()
     if(calib == NULL || uncalib == NULL)
         return EXIT_FAILURE;
     
-    const double speed = -2;
     const double start_time = wb_robot_get_time();
     
     while(wb_robot_step(TIME_STEP) != -1)
     {
-        motors_set_speed(speed, speed);
+        motors_set_speed(SPEED, SPEED);
         
         double current_time = wb_robot_get_time() - start_time;
         

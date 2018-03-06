@@ -29,7 +29,7 @@ int main()
     leds_init();
     sensors_init();
     
-    static const double total_weight = 10;
+    static const double total_weight = 11;
     static const double weights[SENSORS_COUNT] =
             {2, 2, 3, 4, 4, 3, 2, 2};
     
