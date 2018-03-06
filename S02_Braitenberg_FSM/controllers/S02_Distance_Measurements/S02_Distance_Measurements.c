@@ -62,10 +62,10 @@ void wait_for_wall()
     const static unsigned init_countdown = WAIT_DURATION * 1000 / TIME_STEP;
     unsigned countdown = init_countdown;
     
+    leds_set(true);
+    
     while(wb_robot_step(TIME_STEP) != -1)
     {
-        leds_flash();
-        
         for(size_t i = 0; i < USED_SENSORS_COUNT; ++i)
             if(sensors_get_distance(USED_SENSORS[i], true) < WAIT_FOR_DISTANCE)
                 countdown = init_countdown;

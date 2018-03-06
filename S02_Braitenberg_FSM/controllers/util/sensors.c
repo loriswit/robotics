@@ -16,12 +16,14 @@ double corrections[SENSORS_COUNT] = {0, 0};
 // computes calibration values for proximity sensors
 void sensors_compute_corrections()
 {
-    leds_set(true);
-    
     for(unsigned i = 0; i < CALIB_COUNT + CALIB_OFFSET && wb_robot_step(TIME_STEP) != -1; ++i)
-        for(size_t j = 0; j < SENSORS_COUNT; ++j)
-            if(i >= CALIB_OFFSET)
+    {
+        leds_flash();
+        
+        if(i >= CALIB_OFFSET)
+            for(size_t j = 0; j < SENSORS_COUNT; ++j)
                 corrections[j] += wb_distance_sensor_get_value(sensors[j]);
+    }
     
     for(size_t i = 0; i < SENSORS_COUNT; ++i)
         corrections[i] /= CALIB_COUNT;
