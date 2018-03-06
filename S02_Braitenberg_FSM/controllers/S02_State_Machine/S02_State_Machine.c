@@ -33,9 +33,11 @@ int main()
     leds_init();
     sensors_init();
     
-    static const double total_weight = 10;
+    static const double lover_total_weight = 11;
     static const double lover_weights[SENSORS_COUNT] =
             {2, 2, 3, 4, 4, 3, 2, 2};
+    
+    static const double explorer_total_weight = 10;
     static const double explorer_weights[SENSORS_COUNT] =
             {4, 3, 2, 1, 1, 2, 3, 4};
     
@@ -64,7 +66,7 @@ int main()
             else if(state == EXPLORER && distance < EXPLORER_DISTANCE_THRESHOLD)
             {
                 state = LOVER;
-                counter = max_counter * 3 / 4;
+                counter = max_counter * 3 / 4; // shorter timer
                 printf("switching to lover\n");
             }
         }
@@ -73,6 +75,7 @@ int main()
         for(size_t i = 0; i < SENSORS_COUNT; ++i)
         {
             double weight = state == LOVER ? lover_weights[i] : explorer_weights[i];
+            double total_weight = state == LOVER ? lover_total_weight : explorer_total_weight;
             prox[i * 2 / SENSORS_COUNT] +=
                     weight * sensors_get_value(i, true) / total_weight;
         }
