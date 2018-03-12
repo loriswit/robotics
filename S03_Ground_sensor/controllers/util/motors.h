@@ -8,11 +8,12 @@ void motors_init();
 
 /**
  * Sets both motors individual speed.
+ * If speed is greater than 2*pi or lower than -2*pi, it is clamped to those values.
  *
- * @param left The speed of the left motor (in rad/s)
- * @param right The speed of the right motor (in rad/s)
+ * @param left_speed The speed of the left motor (in rad/s)
+ * @param right_speed The speed of the right motor (in rad/s)
  */
-void motors_set_speed(double left, double right);
+void motors_set_speed(double left_speed, double right_speed);
 
 /**
  * Sets both motors speed to zero.

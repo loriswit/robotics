@@ -1,15 +1,31 @@
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 #include <webots/robot.h>
 #include <webots/motor.h>
 
 #include "motors.h"
 
+#define MAX_SPEED (2 * M_PI)
+
 WbDeviceTag left_motor;
 WbDeviceTag right_motor;
 
-void motors_set_speed(double left, double right)
+double clamp(double value, double min, double max)
 {
-    wb_motor_set_velocity(left_motor, left);
-    wb_motor_set_velocity(right_motor, right);
+    if(value > max)
+        return max;
+    
+    if(value < min)
+        return min;
+    
+    return value;
+}
+
+void motors_set_speed(double left_speed, double right_speed)
+{
+    wb_motor_set_velocity(left_motor, clamp(left_speed, -MAX_SPEED, MAX_SPEED));
+    wb_motor_set_velocity(right_motor, clamp(right_speed, -MAX_SPEED, MAX_SPEED));
 }
 
 void motors_stop()
