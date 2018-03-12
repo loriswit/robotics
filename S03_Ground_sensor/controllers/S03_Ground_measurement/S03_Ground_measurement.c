@@ -8,7 +8,7 @@
 #include "../util/consts.h"
 
 #define STEPS_COUNT 50
-#define SPEED 2.0
+#define SPEED 2
 
 // creates a CSV file with headers
 FILE * csv_create(const char * filename)
@@ -57,7 +57,7 @@ int main(int argc, char ** argv)
         return EXIT_FAILURE;
     }
     
-    for(int n = 0; n < STEPS_COUNT && wb_robot_step(TIME_STEP) != -1; n++)
+    for(unsigned n = 0; n < STEPS_COUNT && wb_robot_step(TIME_STEP) != -1; n++)
     {
         csv_add_row(file, wb_robot_get_time());
         motors_set_speed(SPEED, SPEED);

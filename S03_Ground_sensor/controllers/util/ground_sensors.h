@@ -5,6 +5,8 @@
 
 #define GROUND_COUNT 3
 
+enum { GROUND_LEFT, GROUND_CENTER, GROUND_RIGHT };
+
 /**
  * Initializes all ground sensors.
  */

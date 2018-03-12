@@ -1,12 +1,9 @@
-#define _USE_MATH_DEFINES
-#include <math.h>
-
 #include <webots/robot.h>
 #include <webots/motor.h>
 
 #include "motors.h"
 
-#define MAX_SPEED (2 * M_PI)
+#define MAX_SPEED 6.28
 
 WbDeviceTag left_motor;
 WbDeviceTag right_motor;
