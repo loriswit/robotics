@@ -7,8 +7,8 @@
 #include "../util/consts.h"
 
 #define GROUND_MAX 1000
-#define THRESHOLD 1000
-#define SPEED 2
+#define THRESHOLD 250
+#define SPEED 1
 
 double array_sum(const double array[], size_t length)
 {
@@ -18,8 +18,6 @@ double array_sum(const double array[], size_t length)
     
     return sum;
 }
-
-#include <stdio.h>
 
 int main()
 {
@@ -50,8 +48,6 @@ int main()
     
         double speed_right = SPEED + right_factor / THRESHOLD * SPEED;
         double speed_left = SPEED + left_factor / THRESHOLD * SPEED;
-        
-        printf("%f\t\t%f\n", right_factor, speed_right);
         
         motors_set_speed(speed_right, speed_left);
     }
