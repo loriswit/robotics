@@ -1,7 +1,7 @@
 #ifndef ROBOTICS_LEDS_H
 #define ROBOTICS_LEDS_H
 
-#include <stdlib.h>
+#include <stdbool.h>
 
 #define LEDS_COUNT 8
 

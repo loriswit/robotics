@@ -8,6 +8,7 @@
 WbDeviceTag left_motor;
 WbDeviceTag right_motor;
 
+// returns a value clamped between min and max
 double clamp(double value, double min, double max)
 {
     if(value > max)

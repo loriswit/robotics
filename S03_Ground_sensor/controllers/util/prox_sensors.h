@@ -2,6 +2,7 @@
 #define ROBOTICS_PROX_SENSORS_H
 
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define PROX_COUNT 8
 

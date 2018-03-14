@@ -10,6 +10,7 @@
 #define THRESHOLD 250
 #define SPEED 1
 
+// returns the sum of a array
 double array_sum(const double array[], size_t length)
 {
     double sum = 0;
@@ -25,6 +26,7 @@ int main()
     motors_init();
     ground_init();
     
+    // weights { left, center, right }
     static const double right_weights[GROUND_COUNT] = {0, 0, 1};
     static const double left_weights[GROUND_COUNT] = {1, 0, 0};
     

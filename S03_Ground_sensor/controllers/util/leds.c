@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include <webots/robot.h>
 #include <webots/led.h>
 
