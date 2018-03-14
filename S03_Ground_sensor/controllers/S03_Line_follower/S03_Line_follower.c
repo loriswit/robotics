@@ -45,11 +45,11 @@ int main()
         
         right_factor /= array_sum(right_weights, GROUND_COUNT);
         left_factor /= array_sum(left_weights, GROUND_COUNT);
-    
-        double speed_right = SPEED + right_factor / THRESHOLD * SPEED;
-        double speed_left = SPEED + left_factor / THRESHOLD * SPEED;
         
-        motors_set_speed(speed_right, speed_left);
+        double speed_right = SPEED + left_factor / THRESHOLD * SPEED;
+        double speed_left = SPEED + right_factor / THRESHOLD * SPEED;
+        
+        motors_set_speed(speed_left, speed_right);
     }
     
     wb_robot_cleanup();
