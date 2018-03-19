@@ -1,0 +1,16 @@
+// General parameters
+#define PID_WALL_FOLLOW_TARGET 700
+#define PID_PROX_THRESHOLD 50
+#define PID_NORM_SPEED_WALL 3
+#define PID_COUNTER 10
+#define WEIGHT_FRONT 3
+#define WEIGHT_FRONT_SIDE 1
+#define WEIGHT_SIDE 1
+#define WEIGHT_BACK 0
+
+// PID parameters
+//TODO
+#define K 0.0016    
+#define T_I 9
+#define T_D 0.35
+
