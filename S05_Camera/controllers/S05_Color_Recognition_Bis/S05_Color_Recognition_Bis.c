@@ -10,7 +10,7 @@
 #include "../util/consts.h"
 
 #define THRESHOLD 400
-#define SPEED 4
+#define SPEED 2.5
 #define MAX_SPEED 6
 
 #define RED_LED     7
@@ -99,7 +99,7 @@ int main()
     
     while(wb_robot_step(TIME_STEP) != -1)
     {
-        // define speed
+        // compute speed
         
         double prox[2] = {0, 0};
         for(size_t i = 0; i < PROX_COUNT; ++i)
