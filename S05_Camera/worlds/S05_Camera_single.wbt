@@ -8,7 +8,7 @@ WorldInfo {
 Viewpoint {
   fieldOfView 0.7
   orientation 1 0 0 4.71238898038469
-  position -0.006479181814938784 5.161910057067871 -0.2812919020652771
+  position -0.006479181666258729 2.4223976307359334 -0.28129156575083664
 }
 Background {
   skyColor [
@@ -142,7 +142,7 @@ RectangleArena {
 E-puck {
   translation -0.002858568523855844 0 -0.3364066083087179
   rotation 0 -1 0 7.884953353001448e-8
-  controller "S05_Color_Recognition"
+  controller "S05_Camera_Measurements"
   name "e-puck0"
   camera_width 100
   camera_height 4
