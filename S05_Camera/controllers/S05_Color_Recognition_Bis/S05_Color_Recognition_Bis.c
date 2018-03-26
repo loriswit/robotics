@@ -1,11 +1,17 @@
 #include <stdlib.h>
-#include <stdio.h>
 
 #include <webots/robot.h>
+#include <stdio.h>
 
-#include "../util/camera.h"
 #include "../util/leds.h"
+#include "../util/motors.h"
+#include "../util/prox_sensors.h"
+#include "../util/camera.h"
 #include "../util/consts.h"
+
+#define THRESHOLD 400
+#define SPEED 4
+#define MAX_SPEED 6
 
 #define RED_LED     7
 #define RED_H_MIN   0.85
@@ -82,29 +88,52 @@ hls_color to_hls(rgb_color input)
 int main()
 {
     wb_robot_init();
+    motors_init();
     leds_init();
+    prox_init();
     camera_init();
+    
+    static const double total_weight = 10;
+    static const double weights[PROX_COUNT] =
+            {4, 3, 2, 1, 1, 2, 3, 4};
     
     while(wb_robot_step(TIME_STEP) != -1)
     {
+        // define speed
+        
+        double prox[2] = {0, 0};
+        for(size_t i = 0; i < PROX_COUNT; ++i)
+        {
+            size_t index = i * 2 / PROX_COUNT;
+            prox[index] += weights[i] * prox_get_value(i, true) / total_weight;
+        }
+        
+        double speed_left = SPEED - prox[0] / THRESHOLD * SPEED;
+        double speed_right = SPEED - prox[1] / THRESHOLD * SPEED;
+        
+        motors_set_speed(speed_left, speed_right);
+        
+        
+        // check color
+        
         rgb_color average = camera_get_average_color();
         hls_color color = to_hls(average);
-        
+
         printf("h: %3d°\t\tl: %3d%%\t\ts: %3d%%\n",
                (int) (color.h * 360), (int) (color.l * 100), (int) (color.s * 100));
-        
+
         leds_set(false);
-        
+
         if(is_between(color.h, RED_H_MIN, RED_H_MAX) &&
            is_between(color.l, RED_L_MIN, RED_L_MAX) &&
            is_between(color.s, RED_S_MIN, RED_S_MAX))
             led_set(RED_LED, true);
-        
+
         else if(is_between(color.h, GREEN_H_MIN, GREEN_H_MAX) &&
                 is_between(color.l, GREEN_L_MIN, GREEN_L_MAX) &&
                 is_between(color.s, GREEN_S_MIN, GREEN_S_MAX))
             led_set(GREEN_LED, true);
-        
+
         else if(is_between(color.h, BLUE_H_MIN, BLUE_H_MAX) &&
                 is_between(color.l, BLUE_L_MIN, BLUE_L_MAX) &&
                 is_between(color.s, BLUE_S_MIN, BLUE_S_MAX))

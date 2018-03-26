@@ -30,5 +30,5 @@ void led_set(size_t index, bool value)
 void leds_flash()
 {
     static unsigned step = 0;
-    leds_set((step++ / 2) % 2 == 0);
+    leds_set(step++ % 2 == 0);
 }
