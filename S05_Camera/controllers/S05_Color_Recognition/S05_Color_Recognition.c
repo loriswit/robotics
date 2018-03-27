@@ -10,26 +10,26 @@
 #define RED_LED     7
 #define RED_H_MIN   0.85
 #define RED_H_MAX   1
-#define RED_L_MIN   0.1
-#define RED_L_MAX   0.9
 #define RED_S_MIN   0.2
 #define RED_S_MAX   1
+#define RED_L_MIN   0.1
+#define RED_L_MAX   0.9
 
 #define GREEN_LED   0
 #define GREEN_H_MIN 0.25
 #define GREEN_H_MAX 0.45
-#define GREEN_L_MIN 0.1
-#define GREEN_L_MAX 0.9
 #define GREEN_S_MIN 0.3
 #define GREEN_S_MAX 1
+#define GREEN_L_MIN 0.1
+#define GREEN_L_MAX 0.9
 
 #define BLUE_LED    1
 #define BLUE_H_MIN  0.45
 #define BLUE_H_MAX  0.7
-#define BLUE_L_MIN  0.1
-#define BLUE_L_MAX  0.95
 #define BLUE_S_MIN  0.3
 #define BLUE_S_MAX  1
+#define BLUE_L_MIN  0.1
+#define BLUE_L_MAX  0.95
 
 #define is_between(value, min, max) ((value) >= (min) && (value) <= (max))
 
@@ -39,11 +39,11 @@
 typedef struct
 {
     float h;
-    float l;
     float s;
-} hls_color;
+    float l;
+} hsl_color;
 
-hls_color to_hls(rgb_color input)
+hsl_color to_hsl(rgb_color input)
 {
     unsigned max = get_max(get_max(input.r, input.g), input.b);
     unsigned min = get_min(get_min(input.r, input.g), input.b);
@@ -76,7 +76,7 @@ hls_color to_hls(rgb_color input)
         hue /= 6;
     }
     
-    return (hls_color) {hue, light, sat};
+    return (hsl_color) {hue, sat, light};
 }
 
 int main()
@@ -88,7 +88,7 @@ int main()
     while(wb_robot_step(TIME_STEP) != -1)
     {
         rgb_color average = camera_get_average_color();
-        hls_color color = to_hls(average);
+        hsl_color color = to_hsl(average);
         
         printf("h: %3d°\t\tl: %3d%%\t\ts: %3d%%\n",
                (int) (color.h * 360), (int) (color.l * 100), (int) (color.s * 100));
@@ -96,18 +96,18 @@ int main()
         leds_set(false);
         
         if(is_between(color.h, RED_H_MIN, RED_H_MAX) &&
-           is_between(color.l, RED_L_MIN, RED_L_MAX) &&
-           is_between(color.s, RED_S_MIN, RED_S_MAX))
+           is_between(color.s, RED_S_MIN, RED_S_MAX) &&
+           is_between(color.l, RED_L_MIN, RED_L_MAX))
             led_set(RED_LED, true);
         
         else if(is_between(color.h, GREEN_H_MIN, GREEN_H_MAX) &&
-                is_between(color.l, GREEN_L_MIN, GREEN_L_MAX) &&
-                is_between(color.s, GREEN_S_MIN, GREEN_S_MAX))
+                is_between(color.s, GREEN_S_MIN, GREEN_S_MAX) &&
+                is_between(color.l, GREEN_L_MIN, GREEN_L_MAX))
             led_set(GREEN_LED, true);
         
         else if(is_between(color.h, BLUE_H_MIN, BLUE_H_MAX) &&
-                is_between(color.l, BLUE_L_MIN, BLUE_L_MAX) &&
-                is_between(color.s, BLUE_S_MIN, BLUE_S_MAX))
+                is_between(color.s, BLUE_S_MIN, BLUE_S_MAX) &&
+                is_between(color.l, BLUE_L_MIN, BLUE_L_MAX))
             led_set(BLUE_LED, true);
     }
     
