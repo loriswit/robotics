@@ -11,10 +11,25 @@ typedef struct
     size_t size;
 } packet;
 
+/**
+ * Initializes the emitter and the receiver.
+ */
 void com_init();
 
+/**
+ * Sends a packet to others robots.
+ *
+ * @param p A packet structure containing a pointer to the data and the size of the data
+ * @return TRUE if packet has been sent, FALSE if not
+ */
 bool com_send(packet p);
 
+/**
+ * Receives a packet from others robots.
+ *
+ * @return A packet structure containing a pointer to the data and the size of the data
+ *          (note: the packet data has to be freed manually)
+ */
 packet com_receive();
 
 #endif //ROBOTICS_COM_H

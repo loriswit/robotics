@@ -16,6 +16,8 @@
 #define EXPLORER_DISTANCE_THRESHOLD 50
 #define MIN_STATE_DURATION 2.5 // in seconds
 
+#define ROBOTS_COUNT 3
+
 typedef enum
 {
     LOVER, EXPLORER, STOP, NO_DATA
@@ -89,6 +91,7 @@ int main(int argc, char ** argv)
     unsigned counter = max_counter;
     
     state robot_state = LOVER;
+    unsigned stop_count = 0;
     
     while(wb_robot_step(TIME_STEP) != -1)
     {
@@ -99,6 +102,8 @@ int main(int argc, char ** argv)
         {
             if(robot_state == LOVER && distance > LOVER_DISTANCE_THRESHOLD)
             {
+                ++stop_count;
+                
                 robot_state = STOP;
                 leds_set(false);
                 motors_stop();
@@ -107,8 +112,13 @@ int main(int argc, char ** argv)
                 println("stopping");
             }
             
-            if(robot_state == STOP && other_state == STOP)
+            if(other_state == STOP)
+                ++stop_count;
+            
+            if(stop_count == ROBOTS_COUNT)
             {
+                stop_count = 0;
+                
                 robot_state = EXPLORER;
                 counter = 0;
                 println("switching to explorer");
