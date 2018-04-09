@@ -72,16 +72,19 @@ int main(int argc, char ** argv)
                 (prox_get_value(0, true) + prox_get_value(7, true)) / 2;
         
         packet message = com_receive();
+        if(message.data != NULL)
+            println("received: %d (size=%d)", *(int *) message.data, message.size);
         
         if(++counter >= max_counter)
         {
             if(state == LOVER && distance > LOVER_DISTANCE_THRESHOLD)
             {
                 state = STOP;
+                leds_set(false);
                 motors_stop();
                 
-                char data[1] = {STOP_FLAG};
-                com_send((packet) {data, sizeof(data)});
+                int data[1] = {STOP_FLAG};
+                com_send((packet) {data, sizeof(int)});
                 
                 println("stopping");
             }
@@ -89,7 +92,7 @@ int main(int argc, char ** argv)
             if(state == STOP)
             {
                 leds_spin();
-                if(message.data != NULL && message.data[0] == STOP_FLAG)
+                if(message.data != NULL && *(int *) message.data == STOP_FLAG)
                 {
                     state = EXPLORER;
                     counter = 0;

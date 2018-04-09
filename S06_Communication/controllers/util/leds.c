@@ -36,6 +36,6 @@ void leds_flash()
 void leds_spin()
 {
     static unsigned step = 0;
-    led_set(step++ % 8, true);
-    led_set(step % 8, false);
+    led_set(step++ % 8, false);
+    led_set(step % 8, true);
 }

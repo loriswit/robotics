@@ -17,9 +17,9 @@ void com_init()
     wb_receiver_enable(receiver, TIME_STEP);
 }
 
-void com_send(packet p)
+bool com_send(packet p)
 {
-    wb_emitter_send(emitter, p.data, (int) p.size);
+    return (bool) wb_emitter_send(emitter, p.data, (int) p.size);
 }
 
 packet com_receive()
@@ -34,6 +34,7 @@ packet com_receive()
     else
     {
         p.data = NULL;
+        p.size = 0;
     }
     
     wb_receiver_next_packet(receiver);

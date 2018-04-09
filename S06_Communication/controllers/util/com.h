@@ -7,13 +7,13 @@
 
 typedef struct
 {
-    const char * data;
+    const void * data;
     size_t size;
 } packet;
 
 void com_init();
 
-void com_send(packet p);
+bool com_send(packet p);
 
 packet com_receive();
 
