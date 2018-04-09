@@ -1,0 +1,165 @@
+#VRML_SIM R2018a utf8
+WorldInfo {
+  info [
+    "The model of the E-puck robot"
+  ]
+  title "E-puck simulation"
+}
+Viewpoint {
+  fieldOfView 0.7
+  orientation 1 0 0 4.71238898038469
+  position -0.006479181814938784 5.161910057067871 -0.2812919020652771
+}
+Background {
+  skyColor [
+    0.7 0.7 0.7
+  ]
+}
+DEF LIGHTS Group {
+  children [
+    Group {
+      children [
+        PointLight {
+          ambientIntensity 0.3
+          intensity 0.2
+          location -0.4 0.4 0.5
+        }
+        PointLight {
+          ambientIntensity 0.3
+          intensity 0.2
+          location 0 0.4 0.5
+        }
+        PointLight {
+          ambientIntensity 0.3
+          intensity 0.2
+          location 0.4 0.4 0.5
+        }
+      ]
+    }
+    Group {
+      children [
+        PointLight {
+          ambientIntensity 0.2
+          intensity 0.1
+          location -0.4 0.4 0.25
+        }
+        PointLight {
+          ambientIntensity 0.2
+          intensity 0.1
+          location 0 0.4 0.25
+        }
+        PointLight {
+          ambientIntensity 0.2
+          intensity 0.1
+          location 0.4 0.4 0.25
+        }
+      ]
+    }
+    Group {
+      children [
+        PointLight {
+          ambientIntensity 0.3
+          intensity 0.1
+          location -0.4 0.4 0.5
+        }
+        PointLight {
+          ambientIntensity 0.3
+          intensity 0.1
+          location 0 0.4 0.5
+        }
+        PointLight {
+          ambientIntensity 0.3
+          intensity 0.1
+          location 0.4 0.4 0.5
+        }
+      ]
+    }
+    Group {
+      children [
+        PointLight {
+          ambientIntensity 0.2
+          intensity 0.1
+          location -0.4 0.4 0
+        }
+        PointLight {
+          ambientIntensity 0.2
+          intensity 0.1
+          location 0 0.4 0
+        }
+        PointLight {
+          ambientIntensity 0.2
+          intensity 0.1
+          location 0.4 0.4 0
+        }
+      ]
+    }
+    Group {
+      children [
+        PointLight {
+          ambientIntensity 0.2
+          intensity 0.1
+          location -0.4 0.4 -0.25
+        }
+        PointLight {
+          ambientIntensity 0.2
+          intensity 0.1
+          location 0 0.4 -0.25
+        }
+        PointLight {
+          ambientIntensity 0.2
+          intensity 0.1
+          location 0.4 0.4 -0.25
+        }
+      ]
+    }
+    Group {
+      children [
+        PointLight {
+          ambientIntensity 0.3
+          intensity 0.2
+          location -0.4 0.4 -0.5
+        }
+        PointLight {
+          ambientIntensity 0.3
+          intensity 0.2
+          location 0 0.4 -0.5
+        }
+        PointLight {
+          ambientIntensity 0.3
+          intensity 0.2
+          location 0.4 0.4 -0.5
+        }
+      ]
+    }
+  ]
+}
+RectangleArena {
+  floorSize 0.8 1.6
+  floorTextureUrl []
+  floorTileSize 0.8 1.6
+  wallTextureUrl []
+}
+E-puck {
+  translation 0.09714141204612926 0 -0.006406608308718798
+  rotation 0 1 0 4.712388887150466
+  controller "S06_Alt_Search_2"
+  name "e-puck0(1)"
+  camera_width 100
+  camera_height 4
+  groundSensorsSlot [
+    E-puckGroundSensors {
+    }
+  ]
+}
+E-puck {
+  translation -0.00285857956279054 0 -0.1964066083087184
+  rotation 0 -1 0 7.884953353001448e-8
+  controller "S06_Alt_Search_2"
+  name "e-puck0"
+  camera_width 100
+  camera_height 4
+  groundSensorsSlot [
+    E-puckGroundSensors {
+    }
+  ]
+}
