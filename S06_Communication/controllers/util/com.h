@@ -7,7 +7,7 @@
 
 typedef struct
 {
-    const void * data;
+    void * data;
     size_t size;
 } packet;
 

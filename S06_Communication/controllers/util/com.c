@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include <webots/emitter.h>
 #include <webots/receiver.h>
 #include <webots/robot.h>
@@ -28,8 +30,9 @@ packet com_receive()
     
     if(wb_receiver_get_queue_length(receiver) > 0)
     {
-        p.data = wb_receiver_get_data(receiver);
         p.size = (size_t) wb_receiver_get_data_size(receiver);
+        p.data = malloc(p.size);
+        memcpy(p.data, wb_receiver_get_data(receiver), p.size);
     }
     else
     {

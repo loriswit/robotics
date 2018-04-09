@@ -16,7 +16,10 @@
 #define EXPLORER_DISTANCE_THRESHOLD 50
 #define MIN_STATE_DURATION 2.5 // in seconds
 
-#define STOP_FLAG 1
+typedef enum
+{
+    LOVER, EXPLORER, STOP, NO_DATA
+} state;
 
 // returns the sum of a array
 double array_sum(const double array[], size_t length)
@@ -37,6 +40,27 @@ void println(const char * format, ...)
     vsprintf(message, format, args);
     
     printf("%s: %s\n", wb_robot_get_name(), message);
+}
+
+void send(int value)
+{
+    packet message;
+    message.data = (int[]) {value};
+    message.size = sizeof(value);
+    
+    com_send(message);
+}
+
+int receive()
+{
+    packet message = com_receive();
+    if(message.data == NULL)
+        return NO_DATA;
+    
+    int value = *(int *) message.data;
+    free(message.data);
+    
+    return value;
 }
 
 int main(int argc, char ** argv)
@@ -61,71 +85,68 @@ int main(int argc, char ** argv)
     const unsigned max_counter = (unsigned) (MIN_STATE_DURATION * 1000 / TIME_STEP * time_factor);
     unsigned counter = max_counter;
     
-    enum
-    {
-        LOVER, EXPLORER, STOP
-    } state = LOVER;
+    state robot_state = LOVER;
     
     while(wb_robot_step(TIME_STEP) != -1)
     {
-        double distance =
-                (prox_get_value(0, true) + prox_get_value(7, true)) / 2;
-        
-        packet message = com_receive();
-        if(message.data != NULL)
-            println("received: %d (size=%d)", *(int *) message.data, message.size);
+        double distance = (prox_get_value(0, true) + prox_get_value(7, true)) / 2;
+        state other_state = (state) receive();
         
         if(++counter >= max_counter)
         {
-            if(state == LOVER && distance > LOVER_DISTANCE_THRESHOLD)
+            if(robot_state == LOVER && distance > LOVER_DISTANCE_THRESHOLD)
             {
-                state = STOP;
+                robot_state = STOP;
                 leds_set(false);
                 motors_stop();
                 
-                int data[1] = {STOP_FLAG};
-                com_send((packet) {data, sizeof(int)});
-                
+                send(robot_state);
                 println("stopping");
             }
             
-            if(state == STOP)
+            if(robot_state == STOP && other_state == STOP)
             {
-                leds_spin();
-                if(message.data != NULL && *(int *) message.data == STOP_FLAG)
-                {
-                    state = EXPLORER;
-                    counter = 0;
-                    println("switching to explorer");
-                }
+                robot_state = EXPLORER;
+                counter = 0;
+                println("switching to explorer");
             }
             
-            else if(state == EXPLORER && distance < EXPLORER_DISTANCE_THRESHOLD)
+            else if(robot_state == EXPLORER && distance < EXPLORER_DISTANCE_THRESHOLD)
             {
-                state = LOVER;
+                robot_state = LOVER;
                 counter = max_counter * 3 / 4; // shorter timer
                 println("switching to lover");
             }
         }
         
-        if(state == STOP)
-            continue;
+        switch(robot_state)
+        {
+            case LOVER:
+            case EXPLORER:
+                leds_set(robot_state == LOVER);
+                break;
+            
+            case STOP:
+                leds_spin();
+                continue;
+            
+            case NO_DATA:
+                return EXIT_FAILURE;
+        }
         
         double prox[2] = {0, 0};
         for(size_t i = 0; i < PROX_COUNT; ++i)
         {
-            double weight = state == LOVER ? lover_weights[i] : explorer_weights[i];
-            double total_weight = state == LOVER ? lover_total_weight : explorer_total_weight;
+            double weight = robot_state == LOVER ? lover_weights[i] : explorer_weights[i];
+            double total_weight = robot_state == LOVER ? lover_total_weight : explorer_total_weight;
             prox[i * 2 / PROX_COUNT] +=
                     weight * prox_get_value(i, true) / total_weight;
         }
         
-        double speed_right = SPEED - prox[state == LOVER ? 0 : 1] / THRESHOLD * SPEED;
-        double speed_left = SPEED - prox[state == LOVER ? 1 : 0] / THRESHOLD * SPEED;
+        double speed_right = SPEED - prox[robot_state == LOVER ? 0 : 1] / THRESHOLD * SPEED;
+        double speed_left = SPEED - prox[robot_state == LOVER ? 1 : 0] / THRESHOLD * SPEED;
         
         motors_set_speed(speed_left, speed_right);
-        
-        leds_set(state == LOVER);
     }
     
     leds_set(false);
